@@ -95,7 +95,7 @@ ID ID_callback_state;
  */
 struct {
     const char *name;
-    SSL_METHOD *(*func)(void);
+    OSSL_MORE_CONST SSL_METHOD *(*func)(void);
 } ossl_ssl_method_tab[] = {
 #define OSSL_SSL_METHOD_ENTRY(name) { #name, name##_method }
     OSSL_SSL_METHOD_ENTRY(TLSv1),
@@ -144,7 +144,7 @@ ossl_sslctx_s_alloc(VALUE klass)
 static VALUE
 ossl_sslctx_set_ssl_version(VALUE self, VALUE ssl_method)
 {
-    SSL_METHOD *method = NULL;
+    OSSL_MORE_CONST SSL_METHOD *method = NULL;
     const char *s;
     int i;
 
@@ -585,7 +585,7 @@ ossl_sslctx_setup(VALUE self)
 }
 
 static VALUE
-ossl_ssl_cipher_to_ary(SSL_CIPHER *cipher)
+ossl_ssl_cipher_to_ary(OSSL_MORE_CONST SSL_CIPHER *cipher)
 {
     VALUE ary;
     int bits, alg_bits;
@@ -1214,7 +1214,7 @@ static VALUE
 ossl_ssl_get_cipher(VALUE self)
 {
     SSL *ssl;
-    SSL_CIPHER *cipher;
+    OSSL_MORE_CONST SSL_CIPHER *cipher;
 
     Data_Get_Struct(self, SSL, ssl);
     if (!ssl) {

@@ -108,6 +108,16 @@ extern VALUE eOSSLError;
 } while (0)
 
 /*
+ * Compatibility
+ */
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+#define OSSL_MORE_CONST const
+#define STACK _STACK
+#else
+#define OSSL_MORE_CONST
+#endif
+
+/*
  * String to HEXString conversion
  */
 int string2hex(char *, int, char **, int *);
