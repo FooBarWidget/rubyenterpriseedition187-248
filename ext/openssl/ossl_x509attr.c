@@ -93,7 +93,7 @@ ossl_x509attr_initialize(int argc, VALUE *argv, VALUE self)
 {
     VALUE oid, value;
     X509_ATTRIBUTE *attr;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
 
     GetX509Attr(self, attr);
     if(rb_scan_args(argc, argv, "11", &oid, &value) == 1){
@@ -217,8 +217,9 @@ ossl_x509attr_get_value(VALUE self)
 	ossl_str_adjust(str, p);
     }
     else{
-	length = i2d_ASN1_SET_OF_ASN1_TYPE(attr->value.set, NULL,
-			i2d_ASN1_TYPE, V_ASN1_SET, V_ASN1_UNIVERSAL, 0);
+	length = i2d_ASN1_SET_OF_ASN1_TYPE(attr->value.set,
+			(unsigned char **) NULL, i2d_ASN1_TYPE,
+			V_ASN1_SET, V_ASN1_UNIVERSAL, 0);
 	str = rb_str_new(0, length);
 	p = RSTRING_PTR(str);
 	i2d_ASN1_SET_OF_ASN1_TYPE(attr->value.set, &p,
