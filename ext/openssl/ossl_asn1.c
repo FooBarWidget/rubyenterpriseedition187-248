@@ -304,10 +304,10 @@ obj_to_asn1derstr(VALUE obj)
  * DER to Ruby converters
  */
 static VALUE
-decode_bool(unsigned char* der, int length)
+decode_bool(OSSL_MORE_CONST unsigned char* der, int length)
 {
     int bool;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
 
     p = der;
     if((bool = d2i_ASN1_BOOLEAN(NULL, &p, length)) < 0)
@@ -317,10 +317,10 @@ decode_bool(unsigned char* der, int length)
 }
 
 static VALUE
-decode_int(unsigned char* der, int length)
+decode_int(OSSL_MORE_CONST unsigned char* der, int length)
 {
     ASN1_INTEGER *ai;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
     VALUE ret; 
     int status = 0;
 
@@ -336,10 +336,11 @@ decode_int(unsigned char* der, int length)
 }
 
 static VALUE
-decode_bstr(unsigned char* der, int length, long *unused_bits)
+decode_bstr(OSSL_MORE_CONST unsigned char* der, int length, long *unused_bits)
 {
     ASN1_BIT_STRING *bstr;
-    unsigned char *p, *buf;
+    OSSL_MORE_CONST unsigned char *p;
+    unsigned char *buf;
     long len;
     VALUE ret;
 
@@ -362,10 +363,10 @@ decode_bstr(unsigned char* der, int length, long *unused_bits)
 }
 
 static VALUE
-decode_enum(unsigned char* der, int length)
+decode_enum(OSSL_MORE_CONST unsigned char* der, int length)
 {
     ASN1_ENUMERATED *ai;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
     VALUE ret; 
     int status = 0;
 
@@ -381,10 +382,10 @@ decode_enum(unsigned char* der, int length)
 }
 
 static VALUE
-decode_null(unsigned char* der, int length)
+decode_null(OSSL_MORE_CONST unsigned char* der, int length)
 {
     ASN1_NULL *null;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
 
     p = der;
     if(!(null = d2i_ASN1_NULL(NULL, &p, length)))
@@ -395,10 +396,10 @@ decode_null(unsigned char* der, int length)
 }
 
 static VALUE
-decode_obj(unsigned char* der, int length)
+decode_obj(OSSL_MORE_CONST unsigned char* der, int length)
 {
     ASN1_OBJECT *obj;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
     VALUE ret;
     int nid;
     BIO *bio;
@@ -424,10 +425,10 @@ decode_obj(unsigned char* der, int length)
 }
 
 static VALUE
-decode_time(unsigned char* der, int length)
+decode_time(OSSL_MORE_CONST unsigned char* der, int length)
 {
     ASN1_TIME *time;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
     VALUE ret;
     int status = 0;
 
@@ -712,10 +713,10 @@ ossl_asn1data_to_der(VALUE self)
 }
 
 static VALUE
-ossl_asn1_decode0(unsigned char **pp, long length, long *offset, long depth,
-		  int once, int yield)
+ossl_asn1_decode0(OSSL_MORE_CONST unsigned char **pp, long length,
+		  long *offset, long depth, int once, int yield)
 {
-    unsigned char *start, *p;
+    OSSL_MORE_CONST unsigned char *start, *p;
     long len, off = *offset;
     int hlen, tag, tc, j;
     VALUE ary, asn1data, value, tag_class;
@@ -818,7 +819,7 @@ ossl_asn1_decode0(unsigned char **pp, long length, long *offset, long depth,
 static VALUE
 ossl_asn1_traverse(VALUE self, VALUE obj)
 {
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
     long offset = 0;
     volatile VALUE tmp;
 
@@ -834,7 +835,7 @@ static VALUE
 ossl_asn1_decode(VALUE self, VALUE obj)
 {
     VALUE ret, ary;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
     long offset = 0;
     volatile VALUE tmp;
 
@@ -851,7 +852,7 @@ static VALUE
 ossl_asn1_decode_all(VALUE self, VALUE obj)
 {
     VALUE ret;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
     long offset = 0;
     volatile VALUE tmp;
 

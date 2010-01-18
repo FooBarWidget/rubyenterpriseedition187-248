@@ -220,6 +220,7 @@ ossl_x509extfactory_create_ext(int argc, VALUE *argv, VALUE self)
 #ifdef HAVE_X509V3_EXT_NCONF_NID
     VALUE rconf;
     CONF *conf;
+    ID i_config;
 #else
     static LHASH *empty_lhash;
 #endif
@@ -236,7 +237,11 @@ ossl_x509extfactory_create_ext(int argc, VALUE *argv, VALUE self)
     rb_str_append(valstr, value);
     GetX509ExtFactory(self, ctx);
 #ifdef HAVE_X509V3_EXT_NCONF_NID
-    rconf = rb_iv_get(self, "@config");
+    i_config = rb_intern("@config");
+    if (rb_ivar_defined(self, i_config))
+	rconf = rb_ivar_get(self, i_config);
+    else
+	rconf = Qnil;
     conf = NIL_P(rconf) ? NULL : GetConfigPtr(rconf);
     ext = X509V3_EXT_nconf_nid(conf, ctx, nid, RSTRING_PTR(valstr));
 #else
@@ -273,7 +278,7 @@ static VALUE
 ossl_x509ext_initialize(int argc, VALUE *argv, VALUE self)
 {
     VALUE oid, value, critical;
-    unsigned char *p;
+    OSSL_MORE_CONST unsigned char *p;
     X509_EXTENSION *ext;
 
     GetX509Ext(self, ext);
