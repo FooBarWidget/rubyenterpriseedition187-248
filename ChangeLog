@@ -1,3 +1,7 @@
+Fri Jan  8 18:51:11 2010  Nobuyoshi Nakada  <nobu@ruby-lang.org>
+
+	* io.c (io_fwrite): preserve errno.  [ruby-core:27425]
+
 Thu Dec 24 18:04:27 2009  Nobuyoshi Nakada  <nobu@ruby-lang.org>
 
 	* configure.in: default ac_cv_prog_CC to CC.
