@@ -1,3 +1,74 @@
+Sat May 22 19:46:27 2010  Nobuyoshi Nakada  <nobu@ruby-lang.org>
+
+	* lib/net/http.rb (Net::HTTP#request): close @socket only after
+	  started.  [ruby-core:28028]
+
+Sat May 22 19:36:38 2010  Nobuyoshi Nakada  <nobu@ruby-lang.org>
+
+	* eval.c (proc_invoke): reverted r25975.  [ruby-dev:39931]
+	  [ruby-dev:40059]
+
+	* eval.c (rb_mod_define_method): return original block but not
+	  bound block.  [ruby-core:26984]
+
+Thu May 20 16:28:17 2010  Nobuyoshi Nakada  <nobu@ruby-lang.org>
+
+	* lib/webrick/httpservlet/filehandler.rb (make_partial_content):
+	  add bytes-unit.  [ruby-dev:40030]
+
+Thu May 20 16:17:37 2010  NAKAMURA, Hiroshi  <nahi@ruby-lang.org>
+
+	* ext/zlib/zlib.c: backport r18029 and r21861 from trunk.
+	  * r18029 ext/zlib/zlib.c (rb_deflate_params): flush before
+	    deflateParams. [ruby-core:17675] (by mame)
+	  * r21861 ext/zlib/zlib.c (zstream_run): desperately guard the
+	    variable.  [ruby-core:20576] (by usa)
+
+	* test/zlib/test_zlib.rb: backport deflate tests from trunk.
+
+Thu May 20 15:59:14 2010  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/rss/maker/base.rb, test/rss/test_maker_0.9.rb:
+	accept any time format in maker. [ruby-core:26923]
+
+Thu May 20 15:54:08 2010  Akinori MUSHA  <knu@iDaemons.org>
+
+	* eval.c (recursive_push): Taint internal hash to prevent
+	  unexpected SecurityError; fixes #1864.
+
+Thu May 20 15:39:26 2010  Nobuyoshi Nakada  <nobu@ruby-lang.org>
+
+	* io.c (io_fwrite): preserve errno.  [ruby-core:27425]
+
+Tue Apr 20 08:04:37 2010  NAKAMURA Usaku  <usa@ruby-lang.org>
+
+	* io.c (rb_io_s_read): close the IO if an exception is raised on
+	  seeking. [ruby-core:27429]
+
+Mon Apr 19 22:43:28 2010  Nobuyoshi Nakada  <nobu@ruby-lang.org>
+
+	 * ruby.h (RB_GC_GUARD_PTR): workaround for gcc optimization.
+	   [ruby-core:27402]
+
+Tue Apr 20 06:40:53 2010  Marc-Andre Lafortune  <ruby-core@marc-andre.ca>
+
+	* lib/uri/generic.rb (URI::Generic::eql): Check the class of the
+	  compared object. Based on a patch by Peter McLain [ruby-core:27019]
+
+Fri Apr  2 03:27:22 2010  NAKAMURA, Hiroshi  <nahi@ruby-lang.org>
+
+	* lib/net/http.rb (HTTPGenericRequest#send_request_with_body_stream):
+	  increased encoding chunk size for POST request with body_stream
+	  (1K -> 16K). patched by Brian Candler. #1284.
+
+	* test/net/http/test_post_io.rb: added for the patch. It's good if a
+	  patch comes with a test.
+
+Thu Apr  1 05:32:17 2010  NAKAMURA Usaku  <usa@ruby-lang.org>
+
+	* string.c (rb_str_inspect): wrong result of UTF-8 inspect because of
+	  the mistake of calculation.  reported by eban via IRC.
+
 Sun Jan 10 19:00:31 2010  Nobuyoshi Nakada  <nobu@ruby-lang.org>
 
 	* lib/webrick/accesslog.rb : Escape needed.
